@@ -40,7 +40,10 @@ async def on_ready() -> None:
 async def on_message(message: Message) -> None:
     if message.author == client.user:
         return
-    
+ 
+    is_private = message.content.startswith('?')
+    user_message = message.content[1:] if is_private else message.content
+
     keyword_dict = {
         "貼貼": jdata["貼貼"],
         "D:": jdata["D:"],
@@ -51,21 +54,27 @@ async def on_message(message: Message) -> None:
         "耐斯": jdata["good"],
         "小丑": jdata["joker"],
         "smile": jdata["?"],
+        "哈": jdata["憋不住"],
+        "超好笑": jdata["憋不住"],
+        "好笑嗎": jdata["憋"],
         "笑": jdata["?"],
         "難過": jdata["T^T"]
     }
 
     for keyword in keyword_dict:
-        if keyword in message.content and message.author != client.user:
-            await message.channel.send(file=File(str(keyword_dict[keyword])))
+        if keyword in user_message and message.author != client.user:
+            if is_private:
+                await message.author.send(file=File(str(keyword_dict[keyword])))
+            else:
+                await message.channel.send(file=File(str(keyword_dict[keyword])))
             break  
     else:
         username: str = str(message.author)
-        user_message: str = message.content
         channel: str = str(message.channel)
 
         print(f'[{channel}] {username}: "{user_message}"')
-        await send_message(message, user_message)
+        await send_message(message, message.content)
+
 
 
 @client.event

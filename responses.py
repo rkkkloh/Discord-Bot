@@ -13,7 +13,10 @@ def get_response(user_input: str) -> str:
         return 'See you!'
     elif 'roll' in lowered:
         return f'You rolled {str(randint(1,6))}'
+    elif 'help' in lowered:
+        return "`This is a help message that you can modify.`"
     else:
         return choice(['I don\'t understand...',
                        'What are you talking about?',
-                       'Do you mind rephrasing that?'])
+                       'Do you mind rephrasing that?',
+                       '我不太明白你的意思👀'])
