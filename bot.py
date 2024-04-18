@@ -1,25 +1,22 @@
 from typing import Final
 import os
 from dotenv import load_dotenv
-from discord import Intents, Client, Message
+from discord import Intents, Client, Message, File
 from responses import get_response
+import json
+
+with open("keywords.json", "r") as file:
+    jdata = json.load(file)
+
 
 load_dotenv()
 TOKEN: Final[str] = os.getenv('TOKEN')
 
 intents: Intents = Intents.default()
 intents.members = True
+intents.messages = True
 intents.message_content = True # NOQA
 client: Client = Client(intents=intents)
-
-@client.event
-async def on_member_join(member):
-
-    welcome_channel = client.get_channel(int(os.getenv('WELCOME_CHANNEL_ID')))
-    print(welcome_channel)
-    
-    if welcome_channel:
-        await welcome_channel.send(f"Welcome to the server, {member.mention}!")
 
 async def  send_message(message: Message, user_message: str) -> None:
     if not user_message:
@@ -44,12 +41,50 @@ async def on_message(message: Message) -> None:
     if message.author == client.user:
         return
     
-    username: str = str(message.author)
-    user_message: str = message.content
-    channel: str = str(message.channel)
+    keyword_dict = {
+        "貼貼": jdata["貼貼"],
+        "D:": jdata["D:"],
+        "累": jdata["累了"],
+        "衝": jdata["衝鴨"],
+        "。": jdata["無語"],
+        "讚": jdata["讚"],
+        "耐斯": jdata["good"],
+        "小丑": jdata["joker"],
+        "smile": jdata["?"],
+        "笑": jdata["?"],
+        "難過": jdata["T^T"]
+    }
 
-    print(f'[{channel}] {username}: "{user_message}"')
-    await send_message(message, user_message)
+    for keyword in keyword_dict:
+        if keyword in message.content and message.author != client.user:
+            await message.channel.send(file=File(str(keyword_dict[keyword])))
+            break  
+    else:
+        username: str = str(message.author)
+        user_message: str = message.content
+        channel: str = str(message.channel)
+
+        print(f'[{channel}] {username}: "{user_message}"')
+        await send_message(message, user_message)
+
+
+@client.event
+async def on_member_join(member):
+
+    welcome_channel = client.get_channel(int(os.getenv('WELCOME_CHANNEL_ID')))
+    print(welcome_channel)
+    
+    if welcome_channel:
+        await welcome_channel.send(f"Welcome to the server, {member.mention}!")
+
+@client.event
+async def on_member_remove(member):
+
+    welcome_channel = client.get_channel(int(os.getenv('WELCOME_CHANNEL_ID')))
+    print(welcome_channel)
+
+    if welcome_channel:
+        await welcome_channel.send(f"{member} bye:(")
 
 def main() -> None:
     client.run(token=TOKEN)
