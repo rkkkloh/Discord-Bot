@@ -41,8 +41,8 @@ async def on_message(message: Message) -> None:
     if message.author == client.user:
         return
  
-    is_private = message.content.startswith('?')
-    user_message = message.content[1:] if is_private else message.content
+    is_private: bool = message.content.startswith('?')
+    user_message: str = message.content[1:] if is_private else message.content
 
     keyword_dict = {
         "貼貼": jdata["貼貼"],
