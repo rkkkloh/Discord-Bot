@@ -13,7 +13,7 @@ env file is not uploaded because of containing _TOKEN_ of the bot
 
 ## Installation
 
-Discord.py
+[Discord.py](https://discordpy.readthedocs.io/en/stable/)<br>
 Use `pip3 install Discord.py` for *Python3 users* `pip install Discord.py` for *Python2 users*
 
 ## Usage
