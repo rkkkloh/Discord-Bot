@@ -11,7 +11,7 @@ def get_response(user_input: str) -> str:
     if lowered == '':
         return 'Well, you\'re awfully silent...'
     elif 'hello' in lowered:
-        return 'Hello there!'
+        return f'{choice(["Hello there!","Hello! How can I assist you today?"])}'
     elif 'how are you' in lowered:
         return 'Good, thanks!'
     elif 'bye' in lowered:
