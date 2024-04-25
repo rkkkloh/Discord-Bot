@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a ***Discord Bot*** with some amazing functionaility..
+This is a ***Discord Bot*** with some amazing functionaility.<br>
 env file is not uploaded because of containing _TOKEN_ of the bot
 
 ## Table of Contents
@@ -21,5 +21,4 @@ Use `pip3 install Discord.py` for *Python3 users* `pip install Discord.py` for *
 Use `list cmd` to list all some useful command
 
 ## Reference
->https://www.youtube.com/watch?v=SPTfmiYiuok
->https://hackmd.io/@PenutChen/SyuI2jIOU
+>https://www.youtube.com/watch?v=SPTfmiYiuok <br> https://hackmd.io/@PenutChen/SyuI2jIOU
